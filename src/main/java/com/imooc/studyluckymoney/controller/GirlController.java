@@ -2,7 +2,9 @@ package com.imooc.studyluckymoney.controller;
 
 import com.imooc.studyluckymoney.Utils.ResultUtils;
 import com.imooc.studyluckymoney.domain.Girl;
+import com.imooc.studyluckymoney.domain.Result;
 import com.imooc.studyluckymoney.repository.GirlRepository;
+import com.imooc.studyluckymoney.service.GirlService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,8 @@ public class GirlController {
 
     @Autowired
     private GirlRepository girlRepository;
+    @Autowired
+    private GirlService girlService;
 
     /**
      * 获取女孩列表
@@ -45,6 +49,7 @@ public class GirlController {
      */
     @GetMapping("/girls/{id}")
     public Girl lists(@PathVariable("id") Integer id){
+        girlRepository.findById(id);
         return girlRepository.findById(id).orElse(null);
     }
     /**
@@ -67,5 +72,13 @@ public class GirlController {
             return girlRepository.save(girl);
         }
         return null;
+    }
+
+    /**
+     * 通过id获取年龄进行业务处理
+     */
+    @GetMapping("/getAge/{id}")
+    public void getAge(@PathVariable("id") Integer id) throws Exception{
+        girlService.getAge(id);
     }
 }
